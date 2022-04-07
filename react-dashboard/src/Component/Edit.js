@@ -25,7 +25,8 @@ function Edit() {
         onChange={(event) => setEditName(event.target.value)}
       ></input>
       <div className="button-wrapper">
-        <Button className="edit-form-button"
+        <Button style ={{backgroundColor:'green',
+        color: 'white', marginRight: '20px'}}
         variant="contained" onClick={editItem}>
           Update
         </Button>
