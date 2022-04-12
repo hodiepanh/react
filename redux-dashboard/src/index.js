@@ -10,13 +10,13 @@ const store = configureStore({
   reducer:{itemReducer}
 })
 
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store ={store}>
     <App />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 

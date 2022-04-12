@@ -11,8 +11,13 @@ function Create() {
   const dispatch = useDispatch();
 
   const addNewItem =()=>{
-    dispatch(addItem(createName));
-    history.push('/dashboard')
+    if(createName!==""){
+      dispatch(addItem(createName));
+      history.push('/dashboard')
+    }
+    else {
+      alert('please enter name')
+    }
   }
 
   return (
