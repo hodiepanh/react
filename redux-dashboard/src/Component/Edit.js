@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory, useParams } from "react-router-dom";
 import "./Edit.css";
@@ -22,7 +22,7 @@ function Edit() {
 
   return (
     <div className="edit-form">
-      <div className="title">Title {id}</div>
+      <div className="title">Title</div>
       <div className="edit-form-wrapper">
         <input
         type="text"

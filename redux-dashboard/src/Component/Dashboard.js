@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -60,27 +60,23 @@ function Dashboard() {
     history.push(`/edit/${index}`);
   };
   const itemMap = useSelector((state) => state.itemReducer.value);
-  const [itemList,setItemList] = useState(itemMap)
-
+  const [itemList,setItemList] = useState(itemMap);
   const dispatch = useDispatch();
-  //const typeTimer = useRef(null);
+
   const deleteItem = (index) => {
     const delItems = itemList.filter((items) => items !== itemList[index])
     setItemList(delItems)
     dispatch(removeItem(index));
-    //setItemList(itemMap)
   };
+
   useEffect(()=>{
     const delaySearch = setTimeout(()=>{
-      //console.log(searchValue)
       if (searchValue !== "") {
-        //dispatch(searchItem(searchValue))
         const itemSearch = itemList.filter((items) =>
         items.title.includes(searchValue))
         setItemList(itemSearch)
       } 
       else {
-        //dispatch(resetItem("something"));
         setItemList(itemMap)
       }
     },500)
@@ -88,21 +84,6 @@ function Dashboard() {
     return ()=> clearTimeout(delaySearch)
   },[searchValue])
 
-  // const searchForItem = (event) => {
-  //   if (event.key === "Enter") {
-  //     if (searchValue !== "") {
-
-  //       //dispatch(searchItem(searchValue))
-  //       const itemSearch = itemList.filter((items) =>
-  //       items.title.includes(searchValue))
-  //       setItemList(itemSearch)
-  //     } 
-  //     else {
-  //       //console.log(searchValue)
-  //       setItemList(itemMap)
-  //     }
-  // //  }
-  // }};
    const itemCard = itemList.map((data, index) => (
         <Grid className="item-wrapper" item xs={3} key={index}>
           <li key ={index} style={{listStyleType:'none'}}>
