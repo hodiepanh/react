@@ -3,7 +3,8 @@ import Button from "@material-ui/core/Button";
 import { useHistory, useParams } from "react-router-dom";
 import "./Edit.css";
 import { useDispatch, useSelector } from "react-redux";
-import { editItem } from "../Feature/Item";
+import { editItem } from "../feature/Item";
+import { editItems } from "../api/itemApi";
 
 function Edit() {
   const history = useHistory();
@@ -13,27 +14,17 @@ function Edit() {
     (state) => state.itemReducer.value[id].title
   );
   const [editName, setEditName] = useState(editInitialName);
-  const axios = require("axios");
 
-  const updateItem = () => {
-    axios
-      .put(`http://localhost:3001/posts/${id}`, {
-        id: id,
-        title: editName,
-        img: "something",
-      })
-      .then((resp) => {
-        const index = resp.data.id;
-        const editTitle = resp.data.title;
-        //console.log(resp.data.title);
-        dispatch(editItem({ index, editTitle }));
-        //console.log("edit dispatch");
-        history.push("/dashboard");
-        //console.log("route to dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const updateItem = async () => {
+    editItems(id, editName).then((resp) => {
+      //console.log(resp.data);
+      const id = resp.data.id;
+      const editName = resp.data.title;
+      dispatch(editItem({ id, editName }));
+      //console.log("edit dispatch");
+      history.push("/dashboard");
+      //console.log("edit route");
+    });
   };
 
   return (

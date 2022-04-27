@@ -2,34 +2,30 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addItem } from "../Feature/Item";
+import { addItem } from "../feature/Item";
 import "./Create.css";
 import { useLocation } from "react-router-dom";
+import { addItems } from "../api/itemApi";
 
 function Create() {
   const [createName, setCreateName] = useState("");
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const axios = require("axios");
-  const addNewItem = () => {
+  const addNewItem = async () => {
     if (createName !== "") {
-      axios
-        .post("http://localhost:3001/posts", {
-          id: location.state.id,
-          title: createName,
-          img: "something",
-        })
-        .then((resp) => {
-          //console.log(resp.data.title);
-          dispatch(addItem(resp.data.title));
-          //console.log("create dispatch");
-          history.push("/dashboard");
-          //console.log("route to dashboard");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const newItem = await {
+        id: location.state.id,
+        title: createName,
+        img: "something",
+      };
+      addItems(newItem).then((resp) => {
+        //console.log(resp.data.title);
+        dispatch(addItem(resp.data.title));
+        //console.log("add dispatch");
+        history.push("/dashboard");
+        //console.log("add route");
+      });
     } else {
       alert("please enter name");
     }

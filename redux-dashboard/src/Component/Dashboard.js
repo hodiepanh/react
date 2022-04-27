@@ -5,8 +5,10 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItem, removeItem } from "../Feature/Item";
+import { fetchItem, removeItem } from "../feature/Item";
 import "./Dashboard.css";
+import Loading from "./Loading";
+import { getItems, deleteItems, searchItems } from "../api/itemApi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,19 +62,21 @@ function Dashboard() {
     history.push(`/edit/${index}`);
   };
 
-  const itemMap = useSelector((state) => state.itemReducer.value);
+  let itemMap = useSelector((state) => state.itemReducer.value);
   const [itemList, setItemList] = useState(itemMap);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const axios = require("axios");
+
+  const testApi = () => {};
 
   const deleteItem = (index) => {
-    axios
-      .delete(`http://localhost:3001/posts/${index}`)
-      .then((resp) => {})
-      .catch((error) => {
-        console.log(error);
-      });
+    deleteItems(index);
+    // axios
+    //   .delete(`http://localhost:3001/posts/${index}`)
+    //   .then((resp) => {})
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
     //console.log(index);
     dispatch(removeItem(index));
     const delItems = itemList.filter((items) => items.id !== index);
@@ -81,22 +85,26 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3001/posts").then((response) => {
-      setIsLoading(true);
-      dispatch(fetchItem(response.data));
-      //console.log("dispatch");
-      setItemList(response.data);
-      //console.log("set state");
+    setIsLoading(true);
+    if (itemMap.length === 0) {
+      getItems().then((response) => {
+        //console.log(response.data);
+        dispatch(fetchItem(response.data));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        itemMap = response.data;
+        //console.log("dispatch");
+        setIsLoading(false);
+      });
+    } else {
       setIsLoading(false);
-    });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const delaySearch = setTimeout(() => {
       if (searchValue !== "") {
-        axios
-          .get(`http://localhost:3001/posts?title_like=${searchValue}`)
+        searchItems(searchValue)
           .then((resp) => {
             setItemList(resp.data);
           })
@@ -104,11 +112,7 @@ function Dashboard() {
             console.log(error);
           });
       } else {
-        axios.get("http://localhost:3001/posts").then((response) => {
-          //setIsLoading(true);
-          setItemList(response.data);
-          //setIsLoading(false);
-        });
+        setItemList(itemMap);
       }
     }, 500);
     return () => clearTimeout(delaySearch);
@@ -143,7 +147,11 @@ function Dashboard() {
 
   return (
     <div>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <div>
+          <Loading />
+        </div>
+      )}
       {!isLoading && (
         <div className={classes.root}>
           <div className="add-button-wrapper">
@@ -157,6 +165,9 @@ function Dashboard() {
               }}
             >
               Add new item
+            </Button>
+            <Button style={{ color: "royalblue" }} onClick={testApi}>
+              Test
             </Button>
           </div>
           <div className="searchbar-wrapper">

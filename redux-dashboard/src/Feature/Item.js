@@ -12,9 +12,13 @@ export const itemSlice = createSlice({
       state.value = action.payload;
     },
     addItem: (state, action) => {
-      const newItem = { id: 2, title: action.payload, img: "something" };
+      const newItem = {
+        id: state.value.length,
+        title: action.payload,
+        img: "something",
+      };
       state.value = [...state.value, newItem];
-      //console.log(state.value);
+      //console.log(state.value.length);
     },
     removeItem: (state, action) => {
       let newState = state.value;
@@ -22,7 +26,8 @@ export const itemSlice = createSlice({
       state.value = [...newState];
     },
     editItem: (state, action) => {
-      let id = Number(action.payload.index);
+      //console.log(action.payload);
+      let id = Number(action.payload.id);
       state.value[id].title = action.payload.editName;
     },
   },

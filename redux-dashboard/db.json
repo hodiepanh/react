@@ -1,5 +1,5 @@
 {
-  "posts": [
+  "items": [
     {
       "id": 0,
       "title": "red",
@@ -8,6 +8,11 @@
     {
       "id": 1,
       "title": "blue",
+      "img": "something"
+    },
+    {
+      "id": 2,
+      "title": "yellow",
       "img": "something"
     }
   ]

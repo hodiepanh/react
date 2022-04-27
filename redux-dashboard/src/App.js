@@ -1,10 +1,21 @@
 import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Dashboard from "./Component/Dashboard";
-import Create from "./Component/Create";
-import Edit from "./Component/Edit";
-import HeaderBar from "./Component/HeaderBar";
+import Dashboard from "./component/Dashboard";
+import Create from "./component/Create";
+import Edit from "./component/Edit";
+import HeaderBar from "./component/HeaderBar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItem } from "./feature/Item";
 function App() {
+  const axios = require("axios");
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   axios.get("http://localhost:3001/posts").then((response) => {
+  //     dispatch(fetchItem(response.data));
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   return (
     <div>
       <HeaderBar />
