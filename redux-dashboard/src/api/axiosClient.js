@@ -1,5 +1,3 @@
-//import axios from 'axios';
-
 const axios = require("axios");
 const baseUrl = "http://localhost:3001";
 
