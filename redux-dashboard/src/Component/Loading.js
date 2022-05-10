@@ -1,5 +1,4 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -9,7 +8,8 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
-		height: "50vh",
+		height: "100vh",
+		backgroundColor: "rgb(0,0,0,0.25)",
 	},
 }));
 
@@ -17,9 +17,9 @@ function Loading() {
 	const classes = useStyles();
 	return (
 		<div>
-			<Box className={classes.box}>
+			<div className={classes.box}>
 				<CircularProgress />
-			</Box>
+			</div>
 		</div>
 	);
 }

@@ -5,16 +5,10 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	fetchItem,
-	removeItem,
-	fetchItemList,
-	delItemList,
-	searchItemList,
-} from "../feature/Item";
+import { fetchItem, delItemList, changeLoading } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
-import { getItems, deleteItems, searchItems } from "../api/itemApi";
+import { itemApi } from "../api/itemApi";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -69,13 +63,14 @@ function Dashboard() {
 	};
 
 	let itemMap = useSelector((state) => state.itemReducer.value);
-	const [itemList, setItemList] = useState(itemMap);
-	const [isLoading, setIsLoading] = useState(true);
+	const stateLoading = useSelector((state) => state.itemReducer.loading);
+	const [itemList, setItemList] = useState([]);
 	const dispatch = useDispatch();
 
 	const testApi = () => {
 		//dispatch test function
-		dispatch(fetchItemList());
+		dispatch(changeLoading(false));
+		console.log(stateLoading);
 	};
 
 	const deleteItem = (index) => {
@@ -83,49 +78,43 @@ function Dashboard() {
 		//deleteItems(index);
 		//dispatch(removeItem(index));
 		const delItems = itemList.filter((items) => items.id !== index);
-		//console.log(delItems);
 		setItemList(delItems);
-		//console.log(delItems);
 		dispatch(fetchItem(delItems));
 	};
 
 	useEffect(() => {
-		setIsLoading(true);
+		dispatch(changeLoading(true));
 		if (itemMap.length === 0) {
-			//Promise.resolve(dispatch(fetchItemList())).then();
-			getItems().then((response) => {
-				//console.log(response.data);
+			itemApi.getItems().then((response) => {
 				dispatch(fetchItem(response.data));
 				// eslint-disable-next-line react-hooks/exhaustive-deps
-				itemMap = response.data;
-				//console.log("dispatch");
-				setIsLoading(false);
+				setItemList(response.data);
+				dispatch(changeLoading(false));
 			});
 		} else {
-			//console.log(itemMap);
-			setIsLoading(false);
+			dispatch(changeLoading(false));
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
-		const delaySearch = setTimeout(() => {
+		if (itemMap.length !== 0) {
 			if (searchValue !== "") {
-				Promise.resolve(dispatch(searchItemList(searchValue))).then((resp) => {
-					console.log(resp.data);
-				});
-				// searchItems(searchValue)
-				// 	.then((resp) => {
-				// 		setItemList(resp.data);
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log(error);
-				// 	});
+				const delaySearch = setTimeout(() => {
+					itemApi
+						.searchItems(searchValue)
+						.then((resp) => {
+							setItemList(resp.data);
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				}, 500);
+				return () => clearTimeout(delaySearch);
 			} else {
 				setItemList(itemMap);
 			}
-		}, 500);
-		return () => clearTimeout(delaySearch);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchValue]);
 
@@ -157,12 +146,12 @@ function Dashboard() {
 
 	return (
 		<div>
-			{isLoading && (
+			{stateLoading && (
 				<div>
 					<Loading />
 				</div>
 			)}
-			{!isLoading && (
+			{!stateLoading && (
 				<div className={classes.root}>
 					<div className="add-button-wrapper">
 						<Button

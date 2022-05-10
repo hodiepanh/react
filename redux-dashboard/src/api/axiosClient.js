@@ -1,5 +1,4 @@
 import axios from "axios";
-//const axios = require("axios");
 const baseURL = "http://localhost:3001";
 
 const axiosClient = axios.create({

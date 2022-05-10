@@ -14,6 +14,11 @@
       "id": 2,
       "title": "yellow",
       "img": "something"
+    },
+    {
+      "id": 3,
+      "title": "purple",
+      "img": "something"
     }
   ]
 }
