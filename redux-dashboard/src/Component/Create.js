@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addItem } from "../feature/Item";
+import { addItem, addItemList } from "../feature/Item";
 import "./Create.css";
 import { useLocation } from "react-router-dom";
 import { addItems } from "../api/itemApi";
@@ -19,13 +19,19 @@ function Create() {
 				title: createName,
 				img: "something",
 			};
-			addItems(newItem).then((resp) => {
-				//console.log(resp.data.title);
-				dispatch(addItem(resp.data.title));
-				//console.log("add dispatch");
+			Promise.resolve(dispatch(addItemList(newItem))).then(() => {
+				//console.log("to dashboard");
 				history.push("/dashboard");
-				//console.log("add route");
 			});
+			//history.push("/dashboard");
+			//alert("done");
+			// addItems(newItem).then((resp) => {
+			// 	//console.log(resp.data.title);
+			// 	dispatch(addItem(resp.data.title));
+			// 	//console.log("add dispatch");
+			// 	history.push("/dashboard");
+			// 	//console.log("add route");
+			// });
 		} else {
 			alert("please enter name");
 		}

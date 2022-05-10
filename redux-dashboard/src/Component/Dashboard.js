@@ -5,7 +5,13 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItem, removeItem } from "../feature/Item";
+import {
+	fetchItem,
+	removeItem,
+	fetchItemList,
+	delItemList,
+	searchItemList,
+} from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 import { getItems, deleteItems, searchItems } from "../api/itemApi";
@@ -67,26 +73,26 @@ function Dashboard() {
 	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useDispatch();
 
-	const testApi = () => {};
+	const testApi = () => {
+		//dispatch test function
+		dispatch(fetchItemList());
+	};
 
 	const deleteItem = (index) => {
-		deleteItems(index);
-		// axios
-		//   .delete(`http://localhost:3001/posts/${index}`)
-		//   .then((resp) => {})
-		//   .catch((error) => {
-		//     console.log(error);
-		//   });
-		//console.log(index);
-		dispatch(removeItem(index));
+		dispatch(delItemList(index));
+		//deleteItems(index);
+		//dispatch(removeItem(index));
 		const delItems = itemList.filter((items) => items.id !== index);
-		//console.log(itemList);
+		//console.log(delItems);
 		setItemList(delItems);
+		//console.log(delItems);
+		dispatch(fetchItem(delItems));
 	};
 
 	useEffect(() => {
 		setIsLoading(true);
 		if (itemMap.length === 0) {
+			//Promise.resolve(dispatch(fetchItemList())).then();
 			getItems().then((response) => {
 				//console.log(response.data);
 				dispatch(fetchItem(response.data));
@@ -96,6 +102,7 @@ function Dashboard() {
 				setIsLoading(false);
 			});
 		} else {
+			//console.log(itemMap);
 			setIsLoading(false);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,13 +111,16 @@ function Dashboard() {
 	useEffect(() => {
 		const delaySearch = setTimeout(() => {
 			if (searchValue !== "") {
-				searchItems(searchValue)
-					.then((resp) => {
-						setItemList(resp.data);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
+				Promise.resolve(dispatch(searchItemList(searchValue))).then((resp) => {
+					console.log(resp.data);
+				});
+				// searchItems(searchValue)
+				// 	.then((resp) => {
+				// 		setItemList(resp.data);
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log(error);
+				// 	});
 			} else {
 				setItemList(itemMap);
 			}
