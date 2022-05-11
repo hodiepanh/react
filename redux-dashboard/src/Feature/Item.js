@@ -5,23 +5,23 @@ let initialState = {
 	loading: true,
 };
 
-export const fetchItemList = createAsyncThunk("/get", () => {
+export const fetchItemList = createAsyncThunk("items/get", () => {
 	return itemApi.getItems().then((resp) => {
 		return resp.data;
 	});
 });
 
-export const addItemList = createAsyncThunk("/create", (newItem) => {
+export const addItemList = createAsyncThunk("items/create", (newItem) => {
 	return itemApi.addItems(newItem).then((resp) => {
 		return resp.data;
 	});
 });
 
-export const delItemList = createAsyncThunk("/delete", (index) => {
+export const delItemList = createAsyncThunk("items/delete", (index) => {
 	return itemApi.deleteItems(index);
 });
 
-export const editItemList = createAsyncThunk("/edit", (editData) => {
+export const editItemList = createAsyncThunk("items/edit", (editData) => {
 	const id = editData.id;
 	const editName = editData.editName;
 	return itemApi.editItems(id, editName).then((resp) => {
@@ -66,32 +66,32 @@ export const itemSlice = createSlice({
 		},
 	},
 	extraReducers: {
-		[fetchItemList.fulfilled.type]: (state, action) => {
+		[fetchItemList.fulfilled]: (state, action) => {
 			state.value = action.payload;
 			state.loading = false;
 			//console.log(state.value);
 		},
-		[addItemList.pending.type]: (state, action) => {
+		[addItemList.pending]: (state, action) => {
 			state.loading = true;
 		},
-		[addItemList.fulfilled.type]: (state, action) => {
+		[addItemList.fulfilled]: (state, action) => {
 			//console.log(state.value.data);
 			state.value = [...state.value, action.payload];
 			state.loading = false;
 			//console.log(state.value);
 		},
-		[delItemList.fulfilled.type]: (state, action) => {
+		[delItemList.fulfilled]: (state, action) => {
 			//console.log(action.payload);
 		},
-		[editItemList.pending.type]: (state, action) => {
+		[editItemList.pending]: (state, action) => {
 			state.loading = true;
 		},
-		[editItemList.fulfilled.type]: (state, action) => {
+		[editItemList.fulfilled]: (state, action) => {
 			let id = Number(action.payload.id);
 			state.value[id].title = action.payload.title;
 			state.loading = false;
 		},
-		[searchItemList.fulfilled.type]: (state, action) => {
+		[searchItemList.fulfilled]: (state, action) => {
 			console.log(action.payload);
 			state.value = action.payload;
 			//return action.payload;
