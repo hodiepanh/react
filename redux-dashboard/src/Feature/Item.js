@@ -19,7 +19,7 @@ export const addItemList = createAsyncThunk("items/create", async (newItem) => {
 
 export const delItemList = createAsyncThunk("items/delete", async (index) => {
 	const resp = await itemApi.deleteItems(index);
-	return resp;
+	return resp.data;
 });
 
 export const editItemList = createAsyncThunk("items/edit", async (editData) => {
@@ -72,7 +72,6 @@ export const itemSlice = createSlice({
 		[fetchItemList.fulfilled]: (state, action) => {
 			state.value = action.payload;
 			state.loading = false;
-			//console.log(state.value);
 		},
 		[addItemList.pending]: (state, action) => {
 			state.loading = true;
@@ -84,6 +83,7 @@ export const itemSlice = createSlice({
 			//console.log(state.value);
 		},
 		[delItemList.fulfilled]: (state, action) => {
+			//state.value = [...state.value];
 			//console.log(action.payload);
 		},
 		[editItemList.pending]: (state, action) => {
