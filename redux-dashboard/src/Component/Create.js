@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemList, changeLoading } from "../feature/Item";
+import { addItemList } from "../feature/Item";
 import "./Create.css";
 import { useLocation } from "react-router-dom";
 import Loading from "./Loading";
@@ -21,7 +21,6 @@ function Create() {
 				img: "something",
 			};
 			Promise.resolve(dispatch(addItemList(newItem))).then(() => {
-				dispatch(changeLoading(true));
 				history.push("/dashboard");
 			});
 		} else {

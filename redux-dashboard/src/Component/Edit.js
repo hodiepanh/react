@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import { useHistory, useParams } from "react-router-dom";
 import "./Edit.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLoading, editItemList } from "../feature/Item";
+import { editItemList } from "../feature/Item";
 import Loading from "./Loading";
 
 function Edit() {
@@ -18,7 +18,6 @@ function Edit() {
 
 	const updateItem = () => {
 		Promise.resolve(dispatch(editItemList({ id, editName }))).then(() => {
-			dispatch(changeLoading(true));
 			history.push("/dashboard");
 		});
 	};

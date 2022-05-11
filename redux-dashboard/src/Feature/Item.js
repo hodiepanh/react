@@ -6,10 +6,9 @@ let initialState = {
 };
 
 export const fetchItemList = createAsyncThunk("/get", () => {
-	return itemApi.getItems();
-	// .then((resp) => {
-	// 	return resp.data;
-	// });
+	return itemApi.getItems().then((resp) => {
+		return resp.data;
+	});
 });
 
 export const addItemList = createAsyncThunk("/create", (newItem) => {
@@ -72,19 +71,27 @@ export const itemSlice = createSlice({
 	extraReducers: {
 		[fetchItemList.fulfilled.type]: (state, action) => {
 			state.value = action.payload;
-			console.log(state.value);
+			//console.log(state.value);
+		},
+		[addItemList.pending.type]: (state, action) => {
+			state.loading = true;
 		},
 		[addItemList.fulfilled.type]: (state, action) => {
 			//console.log(state.value.data);
-			state.value = [...state.value.data, action.payload];
+			state.value = [...state.value, action.payload];
+			state.loading = false;
 			//console.log(state.value);
 		},
 		[delItemList.fulfilled.type]: (state, action) => {
 			//console.log(action.payload);
 		},
+		[editItemList.pending.type]: (state, action) => {
+			state.loading = true;
+		},
 		[editItemList.fulfilled.type]: (state, action) => {
 			let id = Number(action.payload.id);
 			state.value[id].title = action.payload.title;
+			state.loading = false;
 		},
 		[searchItemList.fulfilled.type]: (state, action) => {
 			console.log(action.payload);

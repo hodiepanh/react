@@ -99,8 +99,8 @@ function Dashboard() {
 			dispatch(fetchItemList())
 				.unwrap()
 				.then((resp) => {
-					console.log(resp.data);
-					setItemList(resp.data);
+					//console.log(resp);
+					setItemList(resp);
 					dispatch(changeLoading(false));
 				});
 			//old reducer
