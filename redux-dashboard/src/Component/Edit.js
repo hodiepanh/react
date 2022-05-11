@@ -29,42 +29,40 @@ function Edit() {
 					<Loading />
 				</div>
 			)}
-			{!stateLoading && (
-				<div className="edit-form">
-					<div className="title">Title</div>
-					<div className="edit-form-wrapper">
-						<input
-							type="text"
-							value={editName}
-							onChange={(event) => {
-								setEditName(event.target.value);
+			<div className="edit-form">
+				<div className="title">Title</div>
+				<div className="edit-form-wrapper">
+					<input
+						type="text"
+						value={editName}
+						onChange={(event) => {
+							setEditName(event.target.value);
+						}}
+					></input>
+					<div className="button-wrapper">
+						<Button
+							style={{
+								backgroundColor: "green",
+								color: "white",
+								marginRight: "20px",
 							}}
-						></input>
-						<div className="button-wrapper">
-							<Button
-								style={{
-									backgroundColor: "green",
-									color: "white",
-									marginRight: "20px",
-								}}
-								variant="contained"
-								onClick={updateItem}
-							>
-								Update
-							</Button>
-							<Button
-								className="cancel-form-button"
-								variant="contained"
-								onClick={() => {
-									history.push("/dashboard");
-								}}
-							>
-								Cancel
-							</Button>
-						</div>
+							variant="contained"
+							onClick={updateItem}
+						>
+							Update
+						</Button>
+						<Button
+							className="cancel-form-button"
+							variant="contained"
+							onClick={() => {
+								history.push("/dashboard");
+							}}
+						>
+							Cancel
+						</Button>
 					</div>
 				</div>
-			)}
+			</div>
 		</div>
 	);
 }

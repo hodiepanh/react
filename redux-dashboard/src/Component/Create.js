@@ -35,33 +35,31 @@ function Create() {
 					<Loading />
 				</div>
 			)}
-			{!stateLoading && (
-				<div className="create-form">
-					<div className="title">Title {location.state.id}</div>
-					<form>
-						<input
-							type="text"
-							value={createName}
-							placeholder="Add title here"
-							onChange={(e) => {
-								setCreateName(e.target.value);
+			<div className="create-form">
+				<div className="title">Title {location.state.id}</div>
+				<form>
+					<input
+						type="text"
+						value={createName}
+						placeholder="Add title here"
+						onChange={(e) => {
+							setCreateName(e.target.value);
+						}}
+					/>
+					<div className="button-wrapper">
+						<Button
+							variant="contained"
+							style={{
+								backgroundColor: "royalblue",
+								color: "white",
 							}}
-						/>
-						<div className="button-wrapper">
-							<Button
-								variant="contained"
-								style={{
-									backgroundColor: "royalblue",
-									color: "white",
-								}}
-								onClick={addNewItem}
-							>
-								Add
-							</Button>
-						</div>
-					</form>
-				</div>
-			)}
+							onClick={addNewItem}
+						>
+							Add
+						</Button>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 }

@@ -5,12 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	fetchItem,
-	delItemList,
-	changeLoading,
-	fetchItemList,
-} from "../feature/Item";
+import { fetchItem, delItemList, fetchItemList } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 import { itemApi } from "../api/itemApi";
@@ -93,7 +88,7 @@ function Dashboard() {
 	};
 
 	useEffect(() => {
-		dispatch(changeLoading(true));
+		//dispatch(changeLoading(true));
 		if (itemMap.length === 0) {
 			//thunk
 			dispatch(fetchItemList())
@@ -101,7 +96,7 @@ function Dashboard() {
 				.then((resp) => {
 					//console.log(resp);
 					setItemList(resp);
-					dispatch(changeLoading(false));
+					//dispatch(changeLoading(false));
 				});
 			//old reducer
 			// itemApi.getItems().then((response) => {
@@ -111,7 +106,7 @@ function Dashboard() {
 			// 	dispatch(changeLoading(false));
 			// });
 		} else {
-			dispatch(changeLoading(false));
+			//dispatch(changeLoading(false));
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -137,7 +132,7 @@ function Dashboard() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchValue]);
 
-	const itemCard = itemList.map((data, index) => (
+	const itemCard = itemList.map((data) => (
 		<Grid className="item-wrapper" item xs={3} key={data.id}>
 			<li key={data.id} style={{ listStyleType: "none" }}>
 				<Paper className={classes.paper}>
@@ -170,42 +165,40 @@ function Dashboard() {
 					<Loading />
 				</div>
 			)}
-			{!stateLoading && (
-				<div className={classes.root}>
-					<div className="add-button-wrapper">
-						<Button
-							style={{ color: "royalblue" }}
-							onClick={() => {
-								history.push({
-									pathname: "/create",
-									state: { id: itemList.length },
-								});
-							}}
-						>
-							Add new item
-						</Button>
-						<Button style={{ color: "royalblue" }} onClick={testApi}>
-							Test
-						</Button>
-					</div>
-					<div className="searchbar-wrapper">
-						<input
-							className="searchbar"
-							type="text"
-							value={searchValue}
-							placeholder="Type something to search"
-							onChange={(e) => {
-								setSearchValue(e.target.value);
-							}}
-						></input>
-					</div>
-					<div className="grid-wrapper">
-						<Grid container spacing={3}>
-							{itemCard}
-						</Grid>
-					</div>
+			<div className={classes.root}>
+				<div className="add-button-wrapper">
+					<Button
+						style={{ color: "royalblue" }}
+						onClick={() => {
+							history.push({
+								pathname: "/create",
+								state: { id: itemList.length },
+							});
+						}}
+					>
+						Add new item
+					</Button>
+					<Button style={{ color: "royalblue" }} onClick={testApi}>
+						Test
+					</Button>
 				</div>
-			)}
+				<div className="searchbar-wrapper">
+					<input
+						className="searchbar"
+						type="text"
+						value={searchValue}
+						placeholder="Type something to search"
+						onChange={(e) => {
+							setSearchValue(e.target.value);
+						}}
+					></input>
+				</div>
+				<div className="grid-wrapper">
+					<Grid container spacing={3}>
+						{itemCard}
+					</Grid>
+				</div>
+			</div>
 		</div>
 	);
 }

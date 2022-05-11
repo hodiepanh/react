@@ -64,13 +64,11 @@ export const itemSlice = createSlice({
 			let id = Number(action.payload.id);
 			state.value[id].title = action.payload.editName;
 		},
-		changeLoading: (state, action) => {
-			state.loading = action.payload;
-		},
 	},
 	extraReducers: {
 		[fetchItemList.fulfilled.type]: (state, action) => {
 			state.value = action.payload;
+			state.loading = false;
 			//console.log(state.value);
 		},
 		[addItemList.pending.type]: (state, action) => {
