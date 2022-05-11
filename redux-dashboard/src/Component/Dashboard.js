@@ -52,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
 			margin: 10,
 		},
 	},
+	list: {
+		listStyleType: "none",
+	},
+	button: {
+		color: "royalblue",
+	},
 }));
 
 function Dashboard() {
@@ -134,7 +140,7 @@ function Dashboard() {
 
 	const itemCard = itemList.map((data) => (
 		<Grid className="item-wrapper" item xs={3} key={data.id}>
-			<li key={data.id} style={{ listStyleType: "none" }}>
+			<li key={data.id} className={classes.list}>
 				<Paper className={classes.paper}>
 					<div className="item-button-wrapper">
 						<Button
@@ -168,7 +174,7 @@ function Dashboard() {
 			<div className={classes.root}>
 				<div className="add-button-wrapper">
 					<Button
-						style={{ color: "royalblue" }}
+						className={classes.button}
 						onClick={() => {
 							history.push({
 								pathname: "/create",
@@ -178,7 +184,7 @@ function Dashboard() {
 					>
 						Add new item
 					</Button>
-					<Button style={{ color: "royalblue" }} onClick={testApi}>
+					<Button className={classes.button} onClick={testApi}>
 						Test
 					</Button>
 				</div>

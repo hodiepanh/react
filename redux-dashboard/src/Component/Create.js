@@ -6,8 +6,20 @@ import { addItemList } from "../feature/Item";
 import "./Create.css";
 import { useLocation } from "react-router-dom";
 import Loading from "./Loading";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+	addbutton: {
+		backgroundColor: "royalblue",
+		color: "white",
+		"&:hover": {
+			backgroundColor: "royalblue",
+		},
+	},
+}));
 
 function Create() {
+	const classes = useStyles();
 	const [createName, setCreateName] = useState("");
 	const stateLoading = useSelector((state) => state.itemReducer.loading);
 	const history = useHistory();
@@ -48,11 +60,8 @@ function Create() {
 					/>
 					<div className="button-wrapper">
 						<Button
+							className={classes.addbutton}
 							variant="contained"
-							style={{
-								backgroundColor: "royalblue",
-								color: "white",
-							}}
 							onClick={addNewItem}
 						>
 							Add

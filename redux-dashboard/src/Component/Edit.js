@@ -5,8 +5,21 @@ import "./Edit.css";
 import { useDispatch, useSelector } from "react-redux";
 import { editItemList } from "../feature/Item";
 import Loading from "./Loading";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+	editbutton: {
+		backgroundColor: "green",
+		color: "white",
+		marginRight: "20px",
+		"&:hover": {
+			backgroundColor: "green",
+		},
+	},
+}));
 
 function Edit() {
+	const classes = useStyles();
 	const history = useHistory();
 	const { id } = useParams();
 	const dispatch = useDispatch();
@@ -41,18 +54,13 @@ function Edit() {
 					></input>
 					<div className="button-wrapper">
 						<Button
-							style={{
-								backgroundColor: "green",
-								color: "white",
-								marginRight: "20px",
-							}}
+							className={classes.editbutton}
 							variant="contained"
 							onClick={updateItem}
 						>
 							Update
 						</Button>
 						<Button
-							className="cancel-form-button"
 							variant="contained"
 							onClick={() => {
 								history.push("/dashboard");

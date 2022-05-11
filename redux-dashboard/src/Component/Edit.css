@@ -24,8 +24,3 @@ input {
     justify-content: flex-start;
     margin: 20px 0;
 }
-
-.cancel-form-button {
-    background-color: grey;
-    color: white
-}
