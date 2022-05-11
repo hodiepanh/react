@@ -13,7 +13,6 @@ import {
 } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
-import { itemApi } from "../api/itemApi";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -79,9 +78,6 @@ function Dashboard() {
 	const dispatch = useDispatch();
 
 	const testApi = () => {
-		//dispatch test function
-		//dispatch(changeLoading(false));
-		//console.log(stateLoading);
 		dispatch(fetchItemList())
 			.unwrap()
 			.then((resp) => {
@@ -91,33 +87,18 @@ function Dashboard() {
 
 	const deleteItem = (index) => {
 		dispatch(delItemList(index));
-		//deleteItems(index);
-		//dispatch(removeItem(index));
 		const delItems = itemList.filter((items) => items.id !== index);
 		setItemList(delItems);
 		dispatch(fetchItem(delItems));
 	};
 
 	useEffect(() => {
-		//dispatch(changeLoading(true));
 		if (itemMap.length === 0) {
-			//thunk
 			dispatch(fetchItemList())
 				.unwrap()
 				.then((resp) => {
-					//console.log(resp);
 					setItemList(resp);
-					//dispatch(changeLoading(false));
 				});
-			//old reducer
-			// itemApi.getItems().then((response) => {
-			// 	dispatch(fetchItem(response.data));
-			// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-			// 	setItemList(response.data);
-			// 	dispatch(changeLoading(false));
-			// });
-		} else {
-			//dispatch(changeLoading(false));
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -131,14 +112,6 @@ function Dashboard() {
 						.then((resp) => {
 							setItemList(resp);
 						});
-					// itemApi
-					// 	.searchItems(searchValue)
-					// 	.then((resp) => {
-					// 		setItemList(resp.data);
-					// 	})
-					// 	.catch((error) => {
-					// 		console.log(error);
-					// 	});
 				}, 500);
 				return () => clearTimeout(delaySearch);
 			} else {

@@ -16,9 +16,7 @@ export const itemApi = {
 	},
 	editItems: (id, editName) => {
 		return axiosClient.patch(`${url}/${id}`, {
-			//id: id,
 			title: editName,
-			//img: "something",
 		});
 	},
 };

@@ -58,12 +58,10 @@ export const itemSlice = createSlice({
 			console.log(action.payload);
 			let newState = state.value;
 			newState.splice(action.payload, 1);
-			//console.log(newState);
 			state.value = [...newState];
 			console.log(state.value);
 		},
 		editItem: (state, action) => {
-			//console.log(action.payload);
 			let id = Number(action.payload.id);
 			state.value[id].title = action.payload.editName;
 		},
@@ -73,20 +71,15 @@ export const itemSlice = createSlice({
 			state.value = action.payload;
 			state.loading = false;
 		},
-		[addItemList.pending]: (state, action) => {
+		[addItemList.pending]: (state) => {
 			state.loading = true;
 		},
 		[addItemList.fulfilled]: (state, action) => {
-			//console.log(state.value.data);
 			state.value = [...state.value, action.payload];
 			state.loading = false;
-			//console.log(state.value);
 		},
-		[delItemList.fulfilled]: (state, action) => {
-			//state.value = [...state.value];
-			//console.log(action.payload);
-		},
-		[editItemList.pending]: (state, action) => {
+		[delItemList.fulfilled]: () => {},
+		[editItemList.pending]: (state) => {
 			state.loading = true;
 		},
 		[editItemList.fulfilled]: (state, action) => {
@@ -94,11 +87,7 @@ export const itemSlice = createSlice({
 			state.value[id].title = action.payload.title;
 			state.loading = false;
 		},
-		[searchItemList.fulfilled]: (state, action) => {
-			//console.log(action.payload);
-			//state.value = action.payload;
-			//return action.payload;
-		},
+		[searchItemList.fulfilled]: () => {},
 	},
 });
 export const {
