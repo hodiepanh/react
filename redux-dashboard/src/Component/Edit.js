@@ -17,7 +17,7 @@ function Edit() {
 	const [editName, setEditName] = useState(editInitialName);
 
 	const updateItem = () => {
-		Promise.resolve(dispatch(editItemList({ id, editName }))).then(() => {
+		dispatch(editItemList({ id, editName })).then(() => {
 			history.push("/dashboard");
 		});
 	};

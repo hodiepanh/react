@@ -20,7 +20,7 @@ function Create() {
 				title: createName,
 				img: "something",
 			};
-			Promise.resolve(dispatch(addItemList(newItem))).then(() => {
+			dispatch(addItemList(newItem)).then(() => {
 				history.push("/dashboard");
 			});
 		} else {
