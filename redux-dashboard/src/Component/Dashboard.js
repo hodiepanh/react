@@ -5,7 +5,12 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItem, delItemList, fetchItemList } from "../feature/Item";
+import {
+	fetchItem,
+	delItemList,
+	fetchItemList,
+	searchItemList,
+} from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 import { itemApi } from "../api/itemApi";
@@ -121,14 +126,19 @@ function Dashboard() {
 		if (itemMap.length !== 0) {
 			if (searchValue !== "") {
 				const delaySearch = setTimeout(() => {
-					itemApi
-						.searchItems(searchValue)
+					dispatch(searchItemList(searchValue))
+						.unwrap()
 						.then((resp) => {
-							setItemList(resp.data);
-						})
-						.catch((error) => {
-							console.log(error);
+							setItemList(resp);
 						});
+					// itemApi
+					// 	.searchItems(searchValue)
+					// 	.then((resp) => {
+					// 		setItemList(resp.data);
+					// 	})
+					// 	.catch((error) => {
+					// 		console.log(error);
+					// 	});
 				}, 500);
 				return () => clearTimeout(delaySearch);
 			} else {

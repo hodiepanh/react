@@ -95,8 +95,8 @@ export const itemSlice = createSlice({
 			state.loading = false;
 		},
 		[searchItemList.fulfilled]: (state, action) => {
-			console.log(action.payload);
-			state.value = action.payload;
+			//console.log(action.payload);
+			//state.value = action.payload;
 			//return action.payload;
 		},
 	},
