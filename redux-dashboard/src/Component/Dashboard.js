@@ -5,7 +5,12 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItem, delItemList, changeLoading } from "../feature/Item";
+import {
+	fetchItem,
+	delItemList,
+	changeLoading,
+	fetchItemList,
+} from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 import { itemApi } from "../api/itemApi";
@@ -69,8 +74,13 @@ function Dashboard() {
 
 	const testApi = () => {
 		//dispatch test function
-		dispatch(changeLoading(false));
-		console.log(stateLoading);
+		//dispatch(changeLoading(false));
+		//console.log(stateLoading);
+		dispatch(fetchItemList())
+			.unwrap()
+			.then((resp) => {
+				console.log(resp.data);
+			});
 	};
 
 	const deleteItem = (index) => {
@@ -85,12 +95,21 @@ function Dashboard() {
 	useEffect(() => {
 		dispatch(changeLoading(true));
 		if (itemMap.length === 0) {
-			itemApi.getItems().then((response) => {
-				dispatch(fetchItem(response.data));
-				// eslint-disable-next-line react-hooks/exhaustive-deps
-				setItemList(response.data);
-				dispatch(changeLoading(false));
-			});
+			//thunk
+			dispatch(fetchItemList())
+				.unwrap()
+				.then((resp) => {
+					console.log(resp.data);
+					setItemList(resp.data);
+					dispatch(changeLoading(false));
+				});
+			//old reducer
+			// itemApi.getItems().then((response) => {
+			// 	dispatch(fetchItem(response.data));
+			// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+			// 	setItemList(response.data);
+			// 	dispatch(changeLoading(false));
+			// });
 		} else {
 			dispatch(changeLoading(false));
 		}

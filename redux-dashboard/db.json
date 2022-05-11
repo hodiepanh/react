@@ -19,6 +19,21 @@
       "id": 3,
       "title": "purple",
       "img": "something"
+    },
+    {
+      "id": 4,
+      "title": "a",
+      "img": "something"
+    },
+    {
+      "id": 5,
+      "title": "w",
+      "img": "something"
+    },
+    {
+      "id": 6,
+      "title": "w",
+      "img": "something"
     }
   ]
 }
