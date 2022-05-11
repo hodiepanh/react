@@ -53,7 +53,6 @@ export const itemSlice = createSlice({
 				img: "something",
 			};
 			state.value = [...state.value, newItem];
-			//console.log(state.value.length);
 		},
 		removeItem: (state, action) => {
 			console.log(action.payload);
