@@ -5,35 +5,39 @@ let initialState = {
 	loading: true,
 };
 
-export const fetchItemList = createAsyncThunk("items/get", () => {
-	return itemApi.getItems().then((resp) => {
-		return resp.data;
-	});
+export const fetchItemList = createAsyncThunk("items/get", async () => {
+	const response = await itemApi.getItems();
+	const data = response.data;
+	return data;
 });
 
-export const addItemList = createAsyncThunk("items/create", (newItem) => {
-	return itemApi.addItems(newItem).then((resp) => {
-		return resp.data;
-	});
+export const addItemList = createAsyncThunk("items/create", async (newItem) => {
+	const resp = await itemApi.addItems(newItem);
+	const data = resp.data;
+	return data;
 });
 
-export const delItemList = createAsyncThunk("items/delete", (index) => {
-	return itemApi.deleteItems(index);
+export const delItemList = createAsyncThunk("items/delete", async (index) => {
+	const resp = await itemApi.deleteItems(index);
+	return resp;
 });
 
-export const editItemList = createAsyncThunk("items/edit", (editData) => {
+export const editItemList = createAsyncThunk("items/edit", async (editData) => {
 	const id = editData.id;
 	const editName = editData.editName;
-	return itemApi.editItems(id, editName).then((resp) => {
-		return resp.data;
-	});
+	const resp = await itemApi.editItems(id, editName);
+	const data = resp.data;
+	return data;
 });
 
-export const searchItemList = createAsyncThunk("/search", (searchValue) => {
-	return itemApi.searchItems(searchValue).then((resp) => {
-		return resp.data;
-	});
-});
+export const searchItemList = createAsyncThunk(
+	"/search",
+	async (searchValue) => {
+		const resp = await itemApi.searchItems(searchValue);
+		const data = resp.data;
+		return data;
+	}
+);
 
 export const itemSlice = createSlice({
 	name: "items",
