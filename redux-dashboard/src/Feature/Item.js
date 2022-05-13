@@ -124,4 +124,6 @@ export const {
 	changeLoading,
 } = itemSlice.actions;
 
+export const loadingState = (state) => state.itemReducer.loading;
+
 export default itemSlice.reducer;

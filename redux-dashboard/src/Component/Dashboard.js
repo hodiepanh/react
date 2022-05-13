@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { delItemList, fetchItemList, searchItemList } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
+import { loadingState } from "../feature/Item";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -68,7 +69,7 @@ function Dashboard() {
 	};
 
 	let itemMap = useSelector((state) => state.itemReducer.value);
-	const stateLoading = useSelector((state) => state.itemReducer.loading);
+	const stateLoading = useSelector(loadingState);
 	const [itemList, setItemList] = useState([]);
 	const dispatch = useDispatch();
 
@@ -84,6 +85,7 @@ function Dashboard() {
 		dispatch(delItemList(index)).then(() => {
 			const delItems = itemList.filter((items) => items.id !== index);
 			setItemList(delItems);
+			console.log(itemMap);
 		});
 	};
 

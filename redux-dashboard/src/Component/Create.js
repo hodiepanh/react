@@ -7,6 +7,7 @@ import "./Create.css";
 import { useLocation } from "react-router-dom";
 import Loading from "./Loading";
 import { makeStyles } from "@material-ui/core/styles";
+import { loadingState } from "../feature/Item";
 
 const useStyles = makeStyles(() => ({
 	addbutton: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(() => ({
 function Create() {
 	const classes = useStyles();
 	const [createName, setCreateName] = useState("");
-	const stateLoading = useSelector((state) => state.itemReducer.loading);
+	const stateLoading = useSelector(loadingState);
 	const history = useHistory();
 	const location = useLocation();
 	const dispatch = useDispatch();

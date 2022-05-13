@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editItemList } from "../feature/Item";
 import Loading from "./Loading";
 import { makeStyles } from "@material-ui/core/styles";
+import { loadingState } from "../feature/Item";
 
 const useStyles = makeStyles(() => ({
 	editbutton: {
@@ -23,7 +24,7 @@ function Edit() {
 	const history = useHistory();
 	const { id } = useParams();
 	const dispatch = useDispatch();
-	const stateLoading = useSelector((state) => state.itemReducer.loading);
+	const stateLoading = useSelector(loadingState);
 	const editInitialName = useSelector(
 		(state) => state.itemReducer.value[id].title
 	);
