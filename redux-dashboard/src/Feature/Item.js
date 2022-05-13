@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { itemApi } from "../api/itemApi";
 let initialState = {
 	value: [],
-	loading: true,
+	loading: false,
 };
 
 export const fetchItemList = createAsyncThunk("items/get", async () => {
@@ -67,9 +67,15 @@ export const itemSlice = createSlice({
 		},
 	},
 	extraReducers: {
+		[fetchItemList.pending]: (state) => {
+			state.loading = true;
+		},
 		[fetchItemList.fulfilled]: (state, action) => {
 			state.value = action.payload;
 			state.loading = false;
+		},
+		[fetchItemList.rejected]: (state) => {
+			state.loading = true;
 		},
 		[addItemList.pending]: (state) => {
 			state.loading = true;
@@ -78,7 +84,18 @@ export const itemSlice = createSlice({
 			state.value = [...state.value, action.payload];
 			state.loading = false;
 		},
-		[delItemList.fulfilled]: () => {},
+		[addItemList.rejected]: (state) => {
+			state.loading = true;
+		},
+		[delItemList.pending]: (state) => {
+			state.loading = true;
+		},
+		[delItemList.fulfilled]: (state) => {
+			state.loading = false;
+		},
+		[delItemList.rejected]: (state) => {
+			state.loading = true;
+		},
 		[editItemList.pending]: (state) => {
 			state.loading = true;
 		},
@@ -86,6 +103,9 @@ export const itemSlice = createSlice({
 			let id = Number(action.payload.id);
 			state.value[id].title = action.payload.title;
 			state.loading = false;
+		},
+		[editItemList.rejected]: (state) => {
+			state.loading = true;
 		},
 		[searchItemList.fulfilled]: () => {},
 	},
