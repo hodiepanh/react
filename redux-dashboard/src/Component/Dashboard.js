@@ -5,12 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	fetchItem,
-	delItemList,
-	fetchItemList,
-	searchItemList,
-} from "../feature/Item";
+import { delItemList, fetchItemList, searchItemList } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 
@@ -86,10 +81,10 @@ function Dashboard() {
 	};
 
 	const deleteItem = (index) => {
-		dispatch(delItemList(index));
-		const delItems = itemList.filter((items) => items.id !== index);
-		setItemList(delItems);
-		dispatch(fetchItem(delItems));
+		dispatch(delItemList(index)).then(() => {
+			const delItems = itemList.filter((items) => items.id !== index);
+			setItemList(delItems);
+		});
 	};
 
 	useEffect(() => {

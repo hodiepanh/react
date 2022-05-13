@@ -19,7 +19,8 @@ export const addItemList = createAsyncThunk("items/create", async (newItem) => {
 
 export const delItemList = createAsyncThunk("items/delete", async (index) => {
 	const resp = await itemApi.deleteItems(index);
-	return resp.data;
+	const dataOb = { data: resp.data, id: index };
+	return dataOb;
 });
 
 export const editItemList = createAsyncThunk("items/edit", async (editData) => {
@@ -45,6 +46,7 @@ export const itemSlice = createSlice({
 	reducers: {
 		fetchItem: (state, action) => {
 			state.value = action.payload;
+			console.log(state.value);
 		},
 		addItem: (state, action) => {
 			const newItem = {
@@ -90,7 +92,10 @@ export const itemSlice = createSlice({
 		[delItemList.pending]: (state) => {
 			state.loading = true;
 		},
-		[delItemList.fulfilled]: (state) => {
+		[delItemList.fulfilled]: (state, action) => {
+			const index = action.payload.id;
+			const delItems = state.value.filter((items) => items.id !== index);
+			state.value = [...delItems];
 			state.loading = false;
 		},
 		[delItemList.rejected]: (state) => {
