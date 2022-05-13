@@ -9,6 +9,7 @@ import { delItemList, fetchItemList, searchItemList } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 import { loadingState } from "../feature/Item";
+import { itemApi } from "../api/itemApi";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -104,11 +105,9 @@ function Dashboard() {
 		if (itemMap.length !== 0) {
 			if (searchValue !== "") {
 				const delaySearch = setTimeout(() => {
-					dispatch(searchItemList(searchValue))
-						.unwrap()
-						.then((resp) => {
-							setItemList(resp);
-						});
+					itemApi.searchItems(searchValue).then((resp) => {
+						setItemList(resp.data);
+					});
 				}, 500);
 				return () => clearTimeout(delaySearch);
 			} else {
