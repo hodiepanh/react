@@ -32,7 +32,7 @@ export const editItemList = createAsyncThunk("items/edit", async (editData) => {
 });
 
 export const searchItemList = createAsyncThunk(
-	"/search",
+	"items/search",
 	async (searchValue) => {
 		const resp = await itemApi.searchItems(searchValue);
 		const data = resp.data;

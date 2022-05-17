@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useUpdateEffect } from "usehooks-ts";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { delItemList, fetchItemList, searchItemList } from "../feature/Item";
+import { delItemList, fetchItemList } from "../feature/Item";
 import "./Dashboard.css";
 import Loading from "./Loading";
 import { loadingState } from "../feature/Item";
@@ -83,11 +84,7 @@ function Dashboard() {
 	};
 
 	const deleteItem = (index) => {
-		dispatch(delItemList(index)).then(() => {
-			const delItems = itemList.filter((items) => items.id !== index);
-			setItemList(delItems);
-			console.log(itemMap);
-		});
+		dispatch(delItemList(index));
 	};
 
 	useEffect(() => {
@@ -115,7 +112,11 @@ function Dashboard() {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [searchValue]);
+	}, [searchValue, itemMap]);
+
+	useUpdateEffect(() => {
+		setItemList(itemMap);
+	}, [itemMap]);
 
 	const itemCard = itemList.map((data) => (
 		<Grid className="item-wrapper" item xs={3} key={data.id}>
